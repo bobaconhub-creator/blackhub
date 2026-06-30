@@ -545,6 +545,7 @@ addScriptButton("fly", "https://raw.githubusercontent.com/bobaconhub-creator/Mai
 addScriptButton("Fix Lag Hệ Thống", "https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/fixlag", 2) [cite: 39]
 addScriptButton("Blox Fruit Hub", "https://pastefy.app/AjS0TLCt/raw", 3) [cite: 39]
 addScriptButton("Turbo Lite Auto", "https://raw.githubusercontent.com/TurboLite/Script/refs/heads/main/MainV2.lua", 4) [cite: 39]
+addScriptButton("tpbackhub", "https://raw.githubusercontent.com/bobaconhub-creator/blackhub/refs/heads/main/tpblackhub", ) [cite: 39]
 -- TAB 4: SETTING (CẤU HÌNH THÔNG SỐ)
 local SettingScroll = Tabs["Setting"].Scroll
 local settingList = Instance.new("UIListLayout", SettingScroll)
@@ -710,12 +711,11 @@ VIPLabel.Font = Enum.Font.GothamBold
 VIPLabel.TextSize = 13
 VIPLabel.LayoutOrder = 0
 
-addVIPScriptButton("tp VIP", "https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/tphay", 1)
-addVIPScriptButton("99night VIP", "https://raw.githubusercontent.com/caomod2077/Script/refs/heads/main/FoxnameHub.lua", 2)
-addVIPScriptButton("MergeaNuke", "https://raw.githubusercontent.com/gumanba/Scripts/main/MergeaNuke", 3)
-addVIPScriptButton("Keyboard Escape", "https://raw.githubusercontent.com/gumanba/Scripts/main/1SpeedKeyboardBrainrotEscape", 4)
-addVIPScriptButton("Become Brainrot", "https://raw.githubusercontent.com/gumanba/Scripts/main/BecomeABrainrot", 5)
-addVIPScriptButton("Animal Hospital", "https://raw.githubusercontent.com/gumanba/Scripts/main/AnimalHospital", 6)
+addVIPScriptButton("99night VIP", "https://raw.githubusercontent.com/caomod2077/Script/refs/heads/main/FoxnameHub.lua", 1)
+addVIPScriptButton("MergeaNuke", "https://raw.githubusercontent.com/gumanba/Scripts/main/MergeaNuke", 2)
+addVIPScriptButton("Keyboard Escape", "https://raw.githubusercontent.com/gumanba/Scripts/main/1SpeedKeyboardBrainrotEscape", 3)
+addVIPScriptButton("Become Brainrot", "https://raw.githubusercontent.com/gumanba/Scripts/main/BecomeABrainrot", 4)
+addVIPScriptButton("Animal Hospital", "https://raw.githubusercontent.com/gumanba/Scripts/main/AnimalHospital", 5)
 
 local KeyArea = Instance.new("Frame", VIP_Scroll)
 KeyArea.Size = UDim2.new(1, 0, 1, 0)
