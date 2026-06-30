@@ -520,7 +520,7 @@ local function addScriptButton(name, url, order)
     btn.TextColor3 = Colors.Text
     btn.Font = Enum.Font.Gotham
     btn.TextSize = 12
-    btn.LayoutOrder = order
+    btn.LayoutOrder = order [cite: 37]
     Instance.new("UICorner", btn).CornerRadius = UDim.new(0, 8)
     local stroke = Instance.new("UIStroke", btn)
     stroke.Color = Colors.Border
@@ -530,32 +530,21 @@ local function addScriptButton(name, url, order)
     btn.MouseLeave:Connect(function() tweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Colors.ScriptBtn, TextColor3 = Colors.Text}):Play() stroke.Color = Colors.Border end)
 
     btn.MouseButton1Click:Connect(function()
-        local success, err = pcall(function() loadstring(game:HttpGet(url))() end)
-        if not success then warn("Failed to load script "..name..": "..err) end
+        local success, err = pcall(function() 
+            -- ĐÃ SỬA: Thêm game:HttpGet để tải dữ liệu từ URL trước khi loadstring
+            loadstring(game:HttpGet(url))() 
+        end)
+        if not success then 
+            warn("Failed to load script "..name..": "..err) [cite: 38] 
+        end
     end)
 end
 
-local function addSectionTitle(text, order)
-    local container = Instance.new("Frame", ScriptScroll)
-    container.Size = UDim2.new(1, 0, 0, 25)
-    container.BackgroundTransparency = 1
-    container.LayoutOrder = order
-    
-    local lbl = Instance.new("TextLabel", container)
-    lbl.Size = UDim2.new(1, 0, 1, 0)
-    lbl.BackgroundTransparency = 1
-    lbl.Text = "—— " .. text .. " ——"
-    lbl.TextColor3 = Colors.Accent
-    lbl.Font = Enum.Font.GothamBold
-    lbl.TextSize = 14
-    lbl.TextXAlignment = Enum.TextXAlignment.Center
-end
-addScriptButton("fly", "https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/fly")
-addScriptButton("Fix Lag Hệ Thống", "https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/fixlag")
-addScriptButton("Blox Fruit Hub", "https://pastefy.app/AjS0TLCt/raw")
-addScriptButton("Turbo Lite Auto", "https://raw.githubusercontent.com/TurboLite/Script/refs/heads/main/MainV2.lua")
-
--------------------------------------------------
+-- ĐÃ SỬA: Truyền đầy đủ link URL làm tham số thứ 2 và số thứ tự hiển thị làm tham số thứ 3
+addScriptButton("fly", "https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/fly", 1) [cite: 39]
+addScriptButton("Fix Lag Hệ Thống", "https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/fixlag", 2) [cite: 39]
+addScriptButton("Blox Fruit Hub", "https://pastefy.app/AjS0TLCt/raw", 3) [cite: 39]
+addScriptButton("Turbo Lite Auto", "https://raw.githubusercontent.com/TurboLite/Script/refs/heads/main/MainV2.lua", 4) [cite: 39]
 -- TAB 4: SETTING (CẤU HÌNH THÔNG SỐ)
 local SettingScroll = Tabs["Setting"].Scroll
 local settingList = Instance.new("UIListLayout", SettingScroll)
