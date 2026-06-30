@@ -550,13 +550,9 @@ local function addSectionTitle(text, order)
     lbl.TextSize = 14
     lbl.TextXAlignment = Enum.TextXAlignment.Center
 end
-
-addSectionTitle("Hệ Thống", 1)
-addScriptButton("Fix Lag Hệ Thống", "https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/fixlag", 2)
-
-addSectionTitle("Blox Fruit", 3)
-addScriptButton("Blox Fruit Hub", "https://pastefy.app/AjS0TLCt/raw", 4)
-addScriptButton("Turbo Lite Auto", "https://raw.githubusercontent.com/TurboLite/Script/refs/heads/main/MainV2.lua", 5)
+addScriptButton("Fix Lag Hệ Thống", "https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/fixlag")
+addScriptButton("Blox Fruit Hub", "https://pastefy.app/AjS0TLCt/raw")
+addScriptButton("Turbo Lite Auto", "https://raw.githubusercontent.com/TurboLite/Script/refs/heads/main/MainV2.lua")
 
 -------------------------------------------------
 -- TAB 4: SETTING (CẤU HÌNH THÔNG SỐ)
