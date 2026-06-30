@@ -550,6 +550,7 @@ local function addSectionTitle(text, order)
     lbl.TextSize = 14
     lbl.TextXAlignment = Enum.TextXAlignment.Center
 end
+addScriptButton("fly", "https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/fly")
 addScriptButton("Fix Lag Hệ Thống", "https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/fixlag")
 addScriptButton("Blox Fruit Hub", "https://pastefy.app/AjS0TLCt/raw")
 addScriptButton("Turbo Lite Auto", "https://raw.githubusercontent.com/TurboLite/Script/refs/heads/main/MainV2.lua")
@@ -605,8 +606,8 @@ local function createSliderEdit(parent, text, placeholder, defaultVal, settingKe
     box.Focused:Connect(function() stroke.Color = Colors.Accent end)
 end
 
-createSliderEdit(SettingScroll, "Tốc độ di chuyển (Speed)", "16-500", settings.Speed, "Speed", 1)
-createSliderEdit(SettingScroll, "Kích thước Hitbox", "2-100", settings.HitboxSize, "HitboxSize", 2)
+createSliderEdit(SettingScroll, "Tốc độ di chuyển (Speed)", "16-500000", settings.Speed, "Speed", 1)
+createSliderEdit(SettingScroll, "Kích thước Hitbox", "2-10000000", settings.HitboxSize, "HitboxSize", 2)
 createSliderEdit(SettingScroll, "Độ trong suốt Hitbox", "0-1", settings.HitboxTransparency, "HitboxTransparency", 3)
 
 local healthBtnContainer = Instance.new("Frame", SettingScroll)
