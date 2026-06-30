@@ -1,0 +1,222 @@
+local Players = game:GetService("Players")
+local StarterGui = game:GetService("StarterGui")
+local TweenService = game:GetService("TweenService")
+local RunService = game:GetService("RunService")
+
+local player = Players.LocalPlayer
+
+-- Tên owner được phép dùng lệnh
+local OWNER_NAME = "ehfphvg362"
+
+local savedPosition = nil
+local tpLocked = false
+
+-- ĐỊNH NGHĨA BẢNG MÀU ĐEN - TÍM (BLACKHUB THEME)
+local Colors = {
+    Background = Color3.fromRGB(15, 15, 15),       -- Nền chính đen đậm
+    Button = Color3.fromRGB(30, 30, 30),           -- Nền nút mặc định
+    Accent = Color3.fromRGB(140, 40, 255),         -- Tím Neon sáng rực
+    Text = Color3.fromRGB(230, 230, 230),          -- Văn bản chính (gần trắng)
+    Border = Color3.fromRGB(45, 45, 45)            -- Viền nhẹ khi nút ở trạng thái thường
+}
+
+-- GUI CHÍNH
+local gui = Instance.new("ScreenGui")
+gui.Name = "SaveTPMenu"
+gui.ResetOnSpawn = false
+gui.Parent = player:WaitForChild("PlayerGui")
+
+-- Nút thu nhỏ / mở giao diện (Toggle Button)
+local toggleBtn = Instance.new("TextButton")
+toggleBtn.Parent = gui
+toggleBtn.Size = UDim2.new(0, 40, 0, 40)
+toggleBtn.Position = UDim2.new(0, 20, 0, 200)
+toggleBtn.BackgroundColor3 = Colors.Background
+toggleBtn.Text = "≡"
+toggleBtn.Font = Enum.Font.GothamBold
+toggleBtn.TextSize = 22
+toggleBtn.TextColor3 = Colors.Accent
+toggleBtn.Active = true
+toggleBtn.Draggable = true
+Instance.new("UICorner", toggleBtn).CornerRadius = UDim.new(0, 8)
+local toggleBorder = Instance.new("UIStroke", toggleBtn)
+toggleBorder.Thickness = 1.5
+toggleBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+local frame = Instance.new("Frame")
+frame.Parent = gui
+local originalSize = UDim2.new(0, 200, 0, 140)
+frame.Size = UDim2.new(0, 0, 0, 0) -- Bắt đầu từ ẩn để Tween phóng to
+frame.Position = UDim2.new(0.5, -100, 0.5, -70)
+frame.BackgroundColor3 = Colors.Background
+frame.BorderSizePixel = 0
+frame.Active = true
+frame.Draggable = true
+frame.Visible = false
+frame.ClipsDescendants = true
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
+
+-- TẠO VIỀN CHẠY MÀU CHO FRAME & TOGGLE BUTTON (Đen - Tím - Đen)
+local mainBorder = Instance.new("UIStroke", frame)
+mainBorder.Thickness = 2
+mainBorder.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+
+local mainGradient = Instance.new("UIGradient", mainBorder)
+mainGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(10, 10, 10)),
+    ColorSequenceKeypoint.new(0.5, Colors.Accent),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(10, 10, 10))
+})
+toggleBorder.Color = mainGradient.Color -- Đồng bộ hiệu ứng màu với nút mở
+
+-- Logic xoay Gradient tạo hiệu ứng viền chuyển động liên tục
+local rotSpeed = 90
+RunService.RenderStepped:Connect(function(deltaTime)
+    local newRotation = (mainGradient.Rotation + (rotSpeed * deltaTime)) % 360
+    mainGradient.Rotation = newRotation
+end)
+
+-- TIÊU ĐỀ MENU
+local title = Instance.new("TextLabel")
+title.Parent = frame
+title.Size = UDim2.new(1, 0, 0, 35)
+title.Position = UDim2.new(0, 0, 0, 5)
+title.BackgroundTransparency = 1
+title.Text = "TELEPORT MENU"
+title.Font = Enum.Font.GothamBold
+title.TextSize = 13
+title.TextColor3 = Colors.Text
+
+-- CÁC NÚT CHỨC NĂNG
+local saveBtn = Instance.new("TextButton")
+saveBtn.Parent = frame
+saveBtn.Size = UDim2.new(0.85, 0, 0, 32)
+saveBtn.Position = UDim2.new(0.075, 0, 0.35, 0)
+saveBtn.BackgroundColor3 = Colors.Button
+saveBtn.Text = "Lưu Vị Trí"
+saveBtn.Font = Enum.Font.GothamMedium
+saveBtn.TextSize = 13
+saveBtn.TextColor3 = Colors.Text
+Instance.new("UICorner", saveBtn).CornerRadius = UDim.new(0, 6)
+local saveStroke = Instance.new("UIStroke", saveBtn)
+saveStroke.Color = Colors.Border
+
+local tpBtn = Instance.new("TextButton")
+tpBtn.Parent = frame
+tpBtn.Size = UDim2.new(0.85, 0, 0, 32)
+tpBtn.Position = UDim2.new(0.075, 0, 0.65, 0)
+tpBtn.BackgroundColor3 = Colors.Button
+tpBtn.Text = "Dịch Chuyển"
+tpBtn.Font = Enum.Font.GothamMedium
+tpBtn.TextSize = 13
+tpBtn.TextColor3 = Colors.Text
+Instance.new("UICorner", tpBtn).CornerRadius = UDim.new(0, 6)
+local tpStroke = Instance.new("UIStroke", tpBtn)
+tpStroke.Color = Colors.Border
+
+-- HÀM ĐẸP HÓA HIỆU ỨNG DI CHUỘT (HOVER EFFECT)
+local function applyHoverEffect(button, stroke)
+    button.MouseEnter:Connect(function()
+        TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Colors.Button, TextColor3 = Colors.Accent}):Play()
+        TweenService:Create(stroke, TweenInfo.new(0.2), {Color = Colors.Accent}):Play()
+    end)
+    button.MouseLeave:Connect(function()
+        TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = Colors.Button, TextColor3 = Colors.Text}):Play()
+        TweenService:Create(stroke, TweenInfo.new(0.2), {Color = Colors.Border}):Play()
+    end)
+end
+applyHoverEffect(saveBtn, saveStroke)
+applyHoverEffect(tpBtn, tpStroke)
+
+-- HIỆU ỨNG TWEEN ĐÓNG / MỞ MENU MƯỢT MÀ
+local isTweening = false
+toggleBtn.MouseButton1Click:Connect(function()
+    if isTweening then return end
+    isTweening = true
+    if frame.Visible then
+        local closeTween = TweenService:Create(frame, TweenInfo.new(0.25, Enum.EasingStyle.Quart, Enum.EasingDirection.In), {Size = UDim2.new(0, 0, 0, 0), BackgroundTransparency = 1})
+        closeTween:Play()
+        closeTween.Completed:Connect(function()
+            frame.Visible = false
+            isTweening = false
+        end)
+    else
+        frame.Size = UDim2.new(0, 0, 0, 0)
+        frame.BackgroundTransparency = 1
+        frame.Visible = true
+        local openTween = TweenService:Create(frame, TweenInfo.new(0.3, Enum.EasingStyle.Quart, Enum.EasingDirection.Out), {Size = originalSize, BackgroundTransparency = 0})
+        openTween:Play()
+        openTween.Completed:Connect(function()
+            isTweening = false
+        end)
+    end
+end)
+
+-- THÔNG BÁO (NOTIFY)
+local function notify(text)
+	pcall(function()
+		StarterGui:SetCore("SendNotification", {
+			Title = "BlackHub Teleport",
+			Text = text,
+			Duration = 3
+		})
+	end)
+end
+
+-- XỬ LÝ SỰ KIỆN LƯU VỊ TRÍ
+saveBtn.MouseButton1Click:Connect(function()
+	local char = player.Character
+	if char and char:FindFirstChild("HumanoidRootPart") then
+		savedPosition = char.HumanoidRootPart.CFrame
+		notify("Đã lưu vị trí thành công!")
+	end
+end)
+
+-- XỬ LÝ SỰ KIỆN DỊCH CHUYỂN
+tpBtn.MouseButton1Click:Connect(function()
+	if tpLocked then
+		notify("⚠️ Thao tác thất bại: Đã bị khóa dịch chuyển!")
+		return
+	end
+
+	local char = player.Character
+	if savedPosition and char and char:FindFirstChild("HumanoidRootPart") then
+		char.HumanoidRootPart.CFrame = savedPosition
+		notify("Đã dịch chuyển tới điểm lưu!")
+	else
+        notify("❌ Bạn chưa lưu vị trí nào!")
+	end
+end)
+
+-- XỬ LÝ LỆNH CHAT COMMANDS
+local function handleCommand(plr, msg)
+	if plr.Name ~= OWNER_NAME then
+		return
+	end
+
+	local target = msg:match("^/tp%s+(%S+)$")
+	if target and target:lower() == player.Name:lower() then
+		tpLocked = true
+		notify("🔒 Tính năng dịch chuyển đã bị Khóa từ xa bởi Chủ sở hữu!")
+		return
+	end
+
+	local unlockTarget = msg:match("^/unlock%s+(%S+)$")
+	if unlockTarget and unlockTarget:lower() == player.Name:lower() then
+		tpLocked = false
+		notify("🔓 Tính năng dịch chuyển đã được Mở khóa từ xa!")
+		return
+	end
+end
+
+for _, plr in ipairs(Players:GetPlayers()) do
+	plr.Chatted:Connect(function(msg)
+		handleCommand(plr, msg)
+	end)
+end
+
+Players.PlayerAdded:Connect(function(plr)
+	plr.Chatted:Connect(function(msg)
+		handleCommand(plr, msg)
+	end)
+end)
