@@ -468,7 +468,7 @@ local function addScriptButton(name, x, y, url)
 end
 
 addScriptButton("Fix Lag Hệ Thống", 20, 40, "https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/fixlag")
-addScriptButton("Fix Lag Hệ Thống", 210, 40, " https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/fly")
+addScriptButton("Fly", 210, 40, "https://raw.githubusercontent.com/bobaconhub-creator/Main/refs/heads/main/fly")
 addScriptButton("Blox Fruit Hub", 20, 125, "https://pastefy.app/AjS0TLCt/raw")
 addScriptButton("Turbo Lite Auto", 210, 125, "https://raw.githubusercontent.com/TurboLite/Script/refs/heads/main/MainV2.lua")
 
