@@ -29,15 +29,15 @@ local httpService = game:GetService("HttpService")
 local function saveVIPData()
     if writefile then
         pcall(function()
-            writefile("BaconVIP_Config.json", httpService:JSONEncode(settings.VIP_Status))
+            writefile("blackhub_Config.json", httpService:JSONEncode(settings.VIP_Status))
         end)
     end
 end
 
 local function loadVIPData()
-    if readfile and isfile and isfile("BaconVIP_Config.json") then
+    if readfile and isfile and isfile("blackhub_Config.json") then
         local success, data = pcall(function()
-            return httpService:JSONDecode(readfile("BaconVIP_Config.json"))
+            return httpService:JSONDecode(readfile("blackhub_Config.json"))
         end)
         if success and data then
             if data.IsUnlocked and data.KeyType == "Normal10" then
@@ -597,6 +597,7 @@ addVIPScriptButton("MergeaNuke", 195, 50, "https://raw.githubusercontent.com/gum
 addVIPScriptButton("Keyboard Escape", 10, 105, "https://raw.githubusercontent.com/gumanba/Scripts/main/1SpeedKeyboardBrainrotEscape")
 addVIPScriptButton("Become Brainrot", 195, 105, "https://raw.githubusercontent.com/gumanba/Scripts/main/BecomeABrainrot")
 addVIPScriptButton("Animal Hospital", 10, 160, "https://raw.githubusercontent.com/gumanba/Scripts/main/AnimalHospital")
+addVIPScriptButton("Animal Hospital", 195, 160, "https://raw.githubusercontent.com/Artss1/Flades_Hub/main/We%20Are%20Arts.lua")
 
 local KeyArea = Instance.new("Frame", VIP_Scroll)
 KeyArea.Size = UDim2.new(1, 0, 1, 0)
